@@ -1,8 +1,22 @@
-# This repo is no longer maintained. Consider using `npm init vite` and selecting the `svelte` option or — if you want a full-fledged app framework — use [SvelteKit](https://kit.svelte.dev), the official application framework for Svelte.
+# Sonorous Frontend App
 
----
+![Sonorous Logo](http://llcode.tech/api/image/65920366f1f0fe657dc46839") 
 
-# Sonorous Frontend APp
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Sonorous Frontend APp](#sonorous-frontend-app)
+    - [Running as an windows app for dev](#running-as-an-windows-app-for-dev)
+    - [Get started](#get-started)
+    - [Building and running in production mode](#building-and-running-in-production-mode)
+    - [Single-page app mode](#single-page-app-mode)
+    - [Using TypeScript](#using-typescript)
+    - [Deploying to the web](#deploying-to-the-web)
+        - [With [Vercel](https://vercel.com)](#with-vercelhttpsvercelcom)
+        - [With [surge](https://surge.sh/)](#with-surgehttpssurgesh)
+
+<!-- markdown-toc end -->
+
 
 ## Running as an windows app for dev
 
