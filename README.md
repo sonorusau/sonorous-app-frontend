@@ -1,6 +1,6 @@
 # Sonorous Frontend App
 
-![Sonorous Logo](http://llcode.tech/api/image/65920366f1f0fe657dc46839") 
+![Sonorous Logo](http://llcode.tech/api/image/65920366f1f0fe657dc46839) 
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
