@@ -1,11 +1,13 @@
 # Sonorous Frontend App
 
-![Sonorous Logo](http://llcode.tech/api/image/65920366f1f0fe657dc46839) 
+<p align="center">
+  <img src="http://llcode.tech/api/image/65920366f1f0fe657dc46839" alt="Sonorous Logo">
+</p>
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [Sonorous Frontend APp](#sonorous-frontend-app)
+- [Sonorous Frontend App](#sonorous-frontend-app)
     - [Running as an windows app for dev](#running-as-an-windows-app-for-dev)
     - [Get started](#get-started)
     - [Building and running in production mode](#building-and-running-in-production-mode)
@@ -16,6 +18,11 @@
         - [With [surge](https://surge.sh/)](#with-surgehttpssurgesh)
 
 <!-- markdown-toc end -->
+
+
+<p align="center">
+  <img src="http://llcode.tech/api/image/65a3d05ad39111b72fe63358" alt="Sonorous Screenshot">
+</p>
 
 
 ## Running as an windows app for dev

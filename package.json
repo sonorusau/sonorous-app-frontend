@@ -1,5 +1,5 @@
 {
-    "name": "svelte-app",
+    "name": "Sonorous Medical",
     "version": "1.0.0",
     "private": true,
     "type": "module",
@@ -22,6 +22,7 @@
         "svelte": "^3.55.0"
     },
     "dependencies": {
+        "iconify-icon": "^1.0.8",
         "sirv-cli": "^2.0.0",
         "svelte-spa-router": "^4.0.1"
     }

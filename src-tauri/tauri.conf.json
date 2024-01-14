@@ -6,7 +6,7 @@
     "distDir": "../public"
   },
   "package": {
-    "productName": "svelte-app",
+    "productName": "Sonorous Medical",
     "version": "0.1.0"
   },
   "tauri": {
@@ -55,10 +55,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 800,
         "resizable": true,
-        "title": "svelte-app",
-        "width": 800
+        "title": "Sonorous Medical",
+        "width": 1200
       }
     ]
   }

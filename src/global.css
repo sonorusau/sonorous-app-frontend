@@ -53,6 +53,10 @@
   position: fixed
 }
 
+.position-relative {
+  position: relative
+}
+
 body {
   background-image: url("https://darksoul-codepen.github.io/DarkSoul.png");
 }
