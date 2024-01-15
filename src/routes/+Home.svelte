@@ -7,6 +7,9 @@
  let currentSelectPatient;
  let currentSearchString = "";
 
+ import { globalState } from '../stores';
+ $: currentPatient = $globalState.currentPatient;
+
  const patients = [
      {
          "patientId": "33256246",
@@ -206,12 +209,8 @@
      .filter(patient => patient.name.toLowerCase().includes(currentSearchString.toLowerCase()));
 
  const getFirstLetter = (name) => name[0].toUpperCase();
-
  let currentlySelectedPatient;
-
- $: if (currentlySelectedPatient) {
-     console.log(currentlySelectedPatient);
- }
+ let isPanelHidden;
 
  $: firstLetterMap = sortedAndFilteredPatients.reduce((map, patient) => {
      const firstLetter = getFirstLetter(patient.name);
@@ -220,35 +219,88 @@
      }
      return map;
  }, {});
+
+ const handleSelectUser = (patientId) => {
+     if (currentlySelectedPatient === patientId) {
+         currentlySelectedPatient = undefined;
+         setCurrentPatient(null);
+     } else {
+         currentlySelectedPatient = patientId
+         const patient = sortedAndFilteredPatients.find((patient) => patient.patientId == patientId);
+
+         setCurrentPatient(patient);
+     }
+ }    
+
+ function setCurrentPatient(patient) {
+     globalState.update(state => {
+         state.currentPatient = patient;
+         return state;
+     });
+ }
+
+ const hidePanel = () => {
+     if (isPanelHidden) {
+         isPanelHidden = false
+     } else {
+         isPanelHidden = true
+     }
+ }
 </script>
 
 <body class="flex flex-row">
-    <LeftPanel>
-        <h3>Select Patient</h3>
-        <input type="text" placeholder="Search" on:input={(e) => {currentSearchString = e.target.value}} />
-        {#each sortedAndFilteredPatients as {name, patientId, dob} (patientId)}
+    <LeftPanel hidden={isPanelHidden}>
+        <section class="panel__header w-full flex flex-col items-center">
+            <h3>Select Patient</h3>
+            <input type="text" placeholder="Search" on:input={(e) => {currentSearchString = e.target.value}} />
+        </section>
+
+        {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
             {#if firstLetterMap[getFirstLetter(name)] === patientId}
                 <div class="sticky-letter-header">{getFirstLetter(name)}</div>
-            {/if}
-            <Card selected={patientId === currentlySelectedPatient} name={name} patientId={patientId} dob={dob} on:click={(e) => currentlySelectedPatient = patientId}>
-                Aliquam erat volutpat. Nunc eleifend leo vitae magna.
-            </Card>
+                {/if}
+                <Card selected={patientId === currentlySelectedPatient} gender={gender} name={name} patientId={patientId} dob={dob} on:click={(e) => handleSelectUser(patientId)}>
+                    {description}
+                </Card>
         {/each}
-
     </LeftPanel>
-    <section class="content flex justify-center">
-        <LargeRoundButton>Start Recording</LargeRoundButton>
-    </section>
+    <main class="content flex flex-col items-center justify-center">
+        <section class="content__patient-info flex items-center">
+            {#if currentlySelectedPatient === undefined}
+                <h2>Please Select a Patient to Start Recording</h2>
+            {:else}
+                {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
+                    {#if patientId === currentlySelectedPatient}
+                        <Card selected={patientId === currentlySelectedPatient} gender={gender} name={name} patientId={patientId} dob={dob} on:click={() => {handleSelectUser(patientId)}}>
+                            {description}
+                        </Card>
+                    {/if}
+                {/each}
+            {/if}
+        </section>
+        <LargeRoundButton disabled={currentlySelectedPatient === undefined} on:click={() => hidePanel()}>Start Recording</LargeRoundButton>
+    </main>
 </body>
 
 <style>
+ .panel__header{
+     position: sticky;
+     top: 0 !important;
+     z-index: 11;
+     background: rgba(240, 240, 240, .3);
+     -webkit-backdrop-filter: blur(20px);
+     backdrop-filter: blur(20px);
+     min-height: 110px; 
+ }
+
  .sticky-letter-header {
      position: sticky;
-     top: -20px;
+     top: 110px;
      z-index: 10;
      border-radius: 0 0 8px 8px;
      -webkit-backdrop-filter: blur(20px);
-     background: rgba(250, 230, 255, .9);
+     backdrop-filter: blur(20px);
+     background: rgba(120, 120, 255, .6);
      boder-radius: 3px;
      padding: 5px 10%;
      margin-bottom: 10px;
@@ -256,9 +308,13 @@
  }
 
  .content {
-     transform: translate(0, -12px);
-     width: 75vw;
      height: 100vh;
+     flex-grow: 1;
+     transform: all .1s ease-out;
+ }
+
+ .content__patient-info {
+     min-height: 200px;
  }
 
  /* TODO use class */

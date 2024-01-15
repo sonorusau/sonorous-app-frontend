@@ -4,59 +4,111 @@
   --mauve-pink: #c8b6ff;
   --soft-lilac: #b8c0ff;
   --pale-sky-blue: #bbd0ff;
+
+  --panel-width: 
 }
 
 .bg-red {
-  background-color: red;
+    background-color: red;
 }
 
 .button--main {
-  width: 20vw;
-  height: 20vw;
-  border-radius: 100%;
-  color: #FFF;
-  background: #1e90ff;
+    width: 20vw;
+    height: 20vw;
+    border-radius: 100%;
+    color: #FFF;
+    background: #1e90ff;
 }
 
 .flex {
-  display: flex
+    display: flex
+}
+
+
+.left-10 {
+    left: 10px;
 }
 
 .justify-center {
-  justify-content: center
+    justify-content: center
+}
+
+.space-around {
+    justify-content: space-around
+}
+
+.w-full {
+    width: 100%
 }
 
 .items-center {
-  align-items: center
+    align-items: center
 }
 
 .cursor-pointer {
-  cursor: pointer
+    cursor: pointer
 }
 
 .no-select {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .flex-col {
-  flex-direction: column
+    flex-direction: column
 }
 
 .position-absolute {
-  position: absolute
+    position: absolute
 }
 
 .position-fixed {
-  position: fixed
+    position: fixed
 }
 
 .position-relative {
-  position: relative
+    position: relative
 }
 
 body {
-  background-image: url("https://darksoul-codepen.github.io/DarkSoul.png");
+    background-image: url("https://darksoul-codepen.github.io/DarkSoul.png");
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    flex-direction: row;
+    align-items: flex-start
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+.button {
+    display: flex;
+    background: rgba(240, 240, 240, .5);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    padding: 12px;
+    justify-content: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    align-items: center;
+    cursor: pointer
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, .8);
+}
+
+.button:active {
+    border: none
 }

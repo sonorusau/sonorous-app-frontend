@@ -1,48 +1,52 @@
 <script>
+ import { createEventDispatcher } from 'svelte';
+ import 'iconify-icon';
+ export let disabled=true;
+
+ const dispatch = createEventDispatcher();
+
+ function handleClick(event) {
+     if ( !disabled )
+         dispatch('click', event);
+ }
 </script>
 
-<main>
-	<div class="button--main cursor-pointer flex justify-center items-center no-select">
-    <slot></slot>
-  </div>
-</main>
+<div class="button--main cursor-pointer flex justify-center items-center no-select" class:disabled={disabled} on:click={handleClick}><slot></slot></div>
 
 <style>
-  main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-  }
+ .button--main {
+     width: 20vw;
+     height: 20vw;
+     border-radius: 100%;
+     color: #FFF;
+     backdrop-filter: blur(20px);
+     background: rgba(30, 144, 255, .5);
+     transition: background .2s ease-in;
+ }
 
-  .button--main {
-    width: 20vw;
-    height: 20vw;
-    border-radius: 100%;
-    color: #FFF;
-    backdrop-filter: blur(20px);
-    background: rgba(30, 144, 255, .5);
-  }
+ .disabled {
+     background: rgba(210,210,180, 0.3);
+ }
 
-  .flex {
-    display: flex
-  }
+ .flex {
+     display: flex
+ }
 
-  .justify-center {
-    justify-content: center
-  }
+ .justify-center {
+     justify-content: center
+ }
 
-  .items-center {
-    align-items: center
-  }
+ .items-center {
+     align-items: center
+ }
 
-  .cursor-pointer {
-    cursor: pointer
-  }
+ .cursor-pointer {
+     cursor: pointer
+ }
 
-  @media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-  }
+ @media (min-width: 640px) {
+		 main {
+			   max-width: none;
+		 }
+ }
 </style>

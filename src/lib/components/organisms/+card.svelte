@@ -14,7 +14,7 @@
  }
 </script>
 
-<div class="card cursor-pointer position-relative" on:click={() => handleClick()}>
+<div class="card cursor-pointer no-select position-relative" class:selected={selected} on:click={handleClick}>
     <span class="card__name">{ name }</span>
     <div class="card__text">DOB: { dob ?? "" }</div>
     <div class="card__text">patientId: { patientId ?? "" }</div>
@@ -37,6 +37,10 @@
      width: 300px;
      max-width: 80%;
      min-height: 100px
+ }
+
+ .selected {
+     background: #99EE99 !important;
  }
 
  .card__selected-indicator {
