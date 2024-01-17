@@ -55,6 +55,8 @@
     "windows": [
       {
         "fullscreen": false,
+        "minWidth": 1200,
+        "minHeight": 790,
         "height": 800,
         "resizable": true,
         "title": "Sonorous Medical",

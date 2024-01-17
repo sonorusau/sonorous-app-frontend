@@ -1,4 +1,5 @@
 <script lang="ts">
+
  export let name;
  import LargeRoundButton from '../lib/components/atoms/+large_round_button.svelte';
  import LeftPanel from '../lib/components/organisms/+left_panel.svelte';
@@ -246,27 +247,46 @@
          isPanelHidden = true
      }
  }
+
+
+ import { push } from 'svelte-spa-router';
+
+ const newPatient = () => {
+     push('/new_patient');
+ }
+
+ const startRecording = () => {
+     hidePanel();
+     push('/connect_device');
+     globalState.update(state => {
+         state.currentStage = 2;
+         return state;
+     });
+ }
 </script>
 
-<body class="flex flex-row">
+<section class="flex position-absolute flex-row w-full">
     <LeftPanel hidden={isPanelHidden}>
         <section class="panel__header w-full flex flex-col items-center">
-            <h3>Select Patient</h3>
+            <div class="flex flex-row space-around items-center w-full">
+                <h3>Select Patient</h3>
+                <div on:click={() => newPatient()} class="button first-child-is-icon"><iconify-icon icon="material-symbols:add"/>New Patient</div>
+            </div>
             <input type="text" placeholder="Search" on:input={(e) => {currentSearchString = e.target.value}} />
         </section>
 
         {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
             {#if firstLetterMap[getFirstLetter(name)] === patientId}
                 <div class="sticky-letter-header">{getFirstLetter(name)}</div>
-                {/if}
-                <Card selected={patientId === currentlySelectedPatient} gender={gender} name={name} patientId={patientId} dob={dob} on:click={(e) => handleSelectUser(patientId)}>
-                    {description}
-                </Card>
+            {/if}
+            <Card selected={patientId === currentlySelectedPatient} gender={gender} name={name} patientId={patientId} dob={dob} on:click={(e) => handleSelectUser(patientId)}>
+                {description}
+            </Card>
         {/each}
     </LeftPanel>
     <main class="content flex flex-col items-center justify-center">
         <section class="content__patient-info flex items-center">
-            {#if currentlySelectedPatient === undefined}
+            {#if currentPatient === null}
                 <h2>Please Select a Patient to Start Recording</h2>
             {:else}
                 {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
@@ -278,9 +298,9 @@
                 {/each}
             {/if}
         </section>
-        <LargeRoundButton disabled={currentlySelectedPatient === undefined} on:click={() => hidePanel()}>Start Recording</LargeRoundButton>
+        <LargeRoundButton disabled={currentlySelectedPatient === undefined} on:click={() => startRecording()}>Start Recording</LargeRoundButton>
     </main>
-</body>
+</section>
 
 <style>
  .panel__header{
@@ -298,9 +318,8 @@
      top: 110px;
      z-index: 10;
      border-radius: 0 0 8px 8px;
-     -webkit-backdrop-filter: blur(20px);
-     backdrop-filter: blur(20px);
-     background: rgba(120, 120, 255, .6);
+     color: #FFF;
+     background: rgb(120, 120, 255);
      boder-radius: 3px;
      padding: 5px 10%;
      margin-bottom: 10px;
@@ -321,4 +340,6 @@
  input[type="text"] {
      width: 90%;
  }
+
+
 </style>

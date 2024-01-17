@@ -20,12 +20,14 @@
      border-radius: 100%;
      color: #FFF;
      backdrop-filter: blur(20px);
+     -webkit-backdrop-filter: blur(20px);
      background: rgba(30, 144, 255, .5);
-     transition: background .2s ease-in;
+     transition: background .2s ease-in, font-color .2s ease-in;
  }
 
  .disabled {
-     background: rgba(210,210,180, 0.3);
+     background: rgba(110,100,120, 0.5);
+     cursor: not-allowed !important;
  }
 
  .flex {

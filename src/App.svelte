@@ -1,28 +1,73 @@
 <!-- App.svelte -->
 <script>
- import Router from 'svelte-spa-router';
+ import Router, {push} from 'svelte-spa-router';
  import Home from './routes/+Home.svelte';
+ import ConnectDevice from './routes/+connect_device.svelte';
+ import PositionDevice from './routes/+position_device.svelte';
+ import NewPatientPage from './routes/+new_patient_form.svelte';
  import About from './routes/+About.svelte';
  import 'iconify-icon';
-
  import { globalState } from './stores';
+
+ let navbarRef;
+
  $: currentPatient = $globalState.currentPatient;
+ $: currentStage = $globalState.currentStage;
+ $: deviceInfo = $globalState.deviceInfo;
+
+ $: {
+     const { currentStage } = $globalState;
+
+     if (navbarRef) {
+         if (currentStage >= 1) {
+             navbarRef.classList.add('extend');
+         } else {
+             navbarRef.classList.remove('extend');
+         }
+     }
+ }
 
  const routes = {
      '/': Home,
+     '/connect_device': ConnectDevice,
+     '/position_device': PositionDevice,
+     '/new_patient': NewPatientPage,
      '/about': About
  };
+
+ const cancel = () => {
+     globalState.update(state => {
+         state.currentStage = 0;
+         return state;
+     });
+
+     push("/");
+ }
 </script>
 
-<main>
-    <nav class="navbar flex flex-row items-center space-around">
-        {#if currentPatient !== null}
-            <div class="button position-absolute left-10"><iconify-icon icon="mdi:cancel" />Cancel</div>
-        {/if}
-        <div>{currentPatient?.name ?? "Please Select a Patient to Start Recording"}</div>
-    </nav>
-    <Router {routes} />
-</main>
+<body>
+    <main>
+        <nav class="navbar extend flex flex-row items-center space-around" bind:this={navbarRef}>
+            {#if currentStage >= 1}
+                <div class="button position-absolute left-10 first-child-is-icon" on:click={() => cancel()}><iconify-icon icon="mdi:cancel" />Cancel</div>
+            {/if}
+            <div class="flex flex-row items-center cursor-pointer first-child-is-icon">
+                {#if currentPatient !== null}
+                    <iconify-icon icon="fluent:patient-20-filled"/> <p>{currentPatient.name}</p>
+                {:else}
+                    <iconify-icon icon="mingcute:warning-line"/> <p>Please Select a Patient to Start Recording</p>
+                {/if}
+            </div>
+            <div class="flex flex-row items-center cursor-pointer first-child-is-icon">
+                {#if deviceInfo !== null}
+                    <iconify-icon icon="fluent:device-eq-16-filled"/> <span>Connected: {deviceInfo}</span>
+                {:else}
+                    <iconify-icon icon="mingcute:warning-line"/> <p>No Device Connected</p>
+                {/if}
+            </div>
+        </nav>
+        <Router {routes} />
+</body>
 
 
 <style>
@@ -34,7 +79,12 @@
      right: 0;
      background: rgba(240, 240, 240, .3);
      -webkit-backdrop-filter: blur(20px);
+     transition: width .1s ease-in-out;
      width: 75vw;
+ }
+
+ .navbar.extend {
+     width: 100%;
  }
 
 </style>

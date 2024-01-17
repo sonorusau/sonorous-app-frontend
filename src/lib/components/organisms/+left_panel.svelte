@@ -44,7 +44,7 @@
  }
 
     .left-panel.hidden {
-        display: None;
+        display: none;
         transform: translateX(-100%);
         animation: slide-out .1s ease-out;
     }
