@@ -28,10 +28,7 @@
 ## Running as an windows app for dev
 
 ```bash
-cd src-tauri
-```
-
-```bash
+npm i
 cargo tauri dev
 ```
 
