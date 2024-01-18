@@ -21,7 +21,7 @@
 
 
 <p align="center">
-  <img src="http://llcode.tech/api/image/65a3d05ad39111b72fe63358" alt="Sonorous Screenshot">
+  <img src="http://llcode.tech/api/image/65a3d05ad39111b72fe63358?v=2" alt="Sonorous Screenshot">
 </p>
 
 
