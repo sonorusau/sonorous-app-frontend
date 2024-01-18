@@ -1,5 +1,4 @@
-<!-- App.svelte -->
-<script>
+<script lang="ts">
  import Router, {push} from 'svelte-spa-router';
  import Home from './routes/+Home.svelte';
  import ConnectDevice from './routes/+connect_device.svelte';
@@ -9,7 +8,7 @@
  import 'iconify-icon';
  import { globalState } from './stores';
 
- let navbarRef;
+ let navbarRef: HTMLElement;
 
  $: currentPatient = $globalState.currentPatient;
  $: currentStage = $globalState.currentStage;
@@ -49,11 +48,20 @@
     <main>
         <nav class="navbar extend flex flex-row items-center space-around" bind:this={navbarRef}>
             {#if currentStage >= 1}
-                <div class="button position-absolute left-10 first-child-is-icon" on:click={() => cancel()}><iconify-icon icon="mdi:cancel" />Cancel</div>
+                <div 
+                    role="button"
+                    class="button position-absolute left-10 first-child-is-icon"
+                    on:click={() => cancel()}
+                    on:keydown={(e) => (e.key === 'Enter' || e.key === 'Space') && cancel()}
+                    tabindex="0"
+                    >
+                    <iconify-icon icon="mdi:cancel" />
+                    Cancel
+                </div>
             {/if}
             <div class="flex flex-row items-center cursor-pointer first-child-is-icon">
                 {#if currentPatient !== null}
-                    <iconify-icon icon="fluent:patient-20-filled"/> <p>{currentPatient.name}</p>
+                    <iconify-icon icon="fluent:patient-20-filled"/><p>{currentPatient?.name}</p>
                 {:else}
                     <iconify-icon icon="mingcute:warning-line"/> <p>Please Select a Patient to Start Recording</p>
                 {/if}
@@ -80,7 +88,7 @@
      background: rgba(240, 240, 240, .3);
      -webkit-backdrop-filter: blur(20px);
      transition: width .1s ease-in-out;
-     width: 75vw;
+     width: calc(100vw - min(var(--panel-width), var(--panel-max-width)));
  }
 
  .navbar.extend {

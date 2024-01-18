@@ -1,17 +1,15 @@
 <script lang="ts">
-
- export let name;
+ import type IPatientInfo from "../lib/interfaces/IPatientInfo.ts";
  import LargeRoundButton from '../lib/components/atoms/+large_round_button.svelte';
  import LeftPanel from '../lib/components/organisms/+left_panel.svelte';
  import Card from '../lib/components/organisms/+card.svelte';
+ import { globalState } from '../stores';
 
- let currentSelectPatient;
  let currentSearchString = "";
 
- import { globalState } from '../stores';
  $: currentPatient = $globalState.currentPatient;
 
- const patients = [
+ const patients: PatientInfo[] = [
      {
          "patientId": "33256246",
          "name": "Jane Smith",
@@ -209,11 +207,12 @@
      .sort((a, b) => a.name.localeCompare(b.name))
      .filter(patient => patient.name.toLowerCase().includes(currentSearchString.toLowerCase()));
 
- const getFirstLetter = (name) => name[0].toUpperCase();
- let currentlySelectedPatient;
- let isPanelHidden;
+ const getFirstLetter = (name: string) => name[0].toUpperCase();
 
- $: firstLetterMap = sortedAndFilteredPatients.reduce((map, patient) => {
+ let currentlySelectedPatient: string | undefined;
+ let isPanelHidden: boolean;
+
+ $: firstLetterMap = sortedAndFilteredPatients.reduce((map: unknown, patient) => {
      const firstLetter = getFirstLetter(patient.name);
      if (!map[firstLetter]) {
          map[firstLetter] = patient.patientId;
@@ -221,19 +220,20 @@
      return map;
  }, {});
 
- const handleSelectUser = (patientId) => {
+ const handleSelectUser = (patientId: string) => {
      if (currentlySelectedPatient === patientId) {
          currentlySelectedPatient = undefined;
          setCurrentPatient(null);
      } else {
          currentlySelectedPatient = patientId
-         const patient = sortedAndFilteredPatients.find((patient) => patient.patientId == patientId);
+         const patient = sortedAndFilteredPatients.find((patient: PatientInfo) => patient.patientId == patientId);
 
-         setCurrentPatient(patient);
+         if ( patient !== undefined )
+             setCurrentPatient(patient);
      }
  }    
 
- function setCurrentPatient(patient) {
+ function setCurrentPatient(patient: PatientInfo | null) {
      globalState.update(state => {
          state.currentPatient = patient;
          return state;
@@ -270,7 +270,15 @@
         <section class="panel__header w-full flex flex-col items-center">
             <div class="flex flex-row space-around items-center w-full">
                 <h3>Select Patient</h3>
-                <div on:click={() => newPatient()} class="button first-child-is-icon"><iconify-icon icon="material-symbols:add"/>New Patient</div>
+                <div
+                    role="button"
+                    on:click={() => newPatient()}
+                    on:keydown={(e) => (e.key === 'Enter' || e.key === 'Space') && newPatient()}
+                    tabindex="0"
+                    class="button first-child-is-icon"
+                    >
+                    <iconify-icon icon="material-symbols:add"/>New Patient
+                </div>
             </div>
             <input type="text" placeholder="Search" on:input={(e) => {currentSearchString = e.target.value}} />
         </section>
@@ -300,12 +308,13 @@
         </section>
         <LargeRoundButton disabled={currentlySelectedPatient === undefined} on:click={() => startRecording()}>Start Recording</LargeRoundButton>
     </main>
-</section>
 
+</section>
 <style>
  .panel__header{
      position: sticky;
-     top: 0 !important;
+     padding-top: 12px;
+     top: 0;
      z-index: 11;
      background: rgba(240, 240, 240, .3);
      -webkit-backdrop-filter: blur(20px);
@@ -320,7 +329,7 @@
      border-radius: 0 0 8px 8px;
      color: #FFF;
      background: rgb(120, 120, 255);
-     boder-radius: 3px;
+     border-radius: 3px;
      padding: 5px 10%;
      margin-bottom: 10px;
      width: 70%;
