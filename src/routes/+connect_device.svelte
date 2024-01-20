@@ -13,7 +13,7 @@
      }
 
      setTimeout(() => {
-         setDevice("Sonorous Model 1");
+         setDevice("Sonorus Model 1");
          push("/position_device");
      }, 6000)
 

@@ -4,6 +4,7 @@
  import LeftPanel from '../lib/components/organisms/+left_panel.svelte';
  import Card from '../lib/components/organisms/+card.svelte';
  import { globalState } from '../stores';
+ import { push } from 'svelte-spa-router';
 
  let currentSearchString = "";
 
@@ -249,8 +250,6 @@
  }
 
 
- import { push } from 'svelte-spa-router';
-
  const newPatient = () => {
      push('/new_patient');
  }
@@ -294,17 +293,19 @@
     </LeftPanel>
     <main class="content flex flex-col items-center justify-center">
         <section class="content__patient-info flex items-center">
-            {#if currentPatient === null}
-                <h2>Please Select a Patient to Start Recording</h2>
-            {:else}
-                {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
-                    {#if patientId === currentlySelectedPatient}
-                        <Card selected={patientId === currentlySelectedPatient} gender={gender} name={name} patientId={patientId} dob={dob} on:click={() => {handleSelectUser(patientId)}}>
-                            {description}
-                        </Card>
-                    {/if}
-                {/each}
-            {/if}
+            <!-- 
+                 {#if currentPatient === null}
+                 <h2>Please Select a Patient to Start Recording</h2>
+                 {:else}
+                 {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
+                 {#if patientId === currentlySelectedPatient}
+                 <Card selected={patientId === currentlySelectedPatient} gender={gender} name={name} patientId={patientId} dob={dob} on:click={() => {handleSelectUser(patientId)}}>
+                 {description}
+                 </Card>
+                 {/if}
+                 {/each}
+                 {/if}
+            -->
         </section>
         <LargeRoundButton disabled={currentlySelectedPatient === undefined} on:click={() => startRecording()}>Start Recording</LargeRoundButton>
     </main>
@@ -312,8 +313,9 @@
 </section>
 <style>
  .panel__header{
+     --panel-padding-top: 12px;
      position: sticky;
-     padding-top: 12px;
+     padding-top: var(--panel-padding-top);
      top: 0;
      z-index: 11;
      background: rgba(240, 240, 240, .3);
@@ -323,8 +325,9 @@
  }
 
  .sticky-letter-header {
+     --panel-padding-top: 12px;
      position: sticky;
-     top: 110px;
+     top: calc(110px + var(--panel-padding-top));
      z-index: 10;
      border-radius: 0 0 8px 8px;
      color: #FFF;
@@ -342,7 +345,7 @@
  }
 
  .content__patient-info {
-     min-height: 200px;
+     /* min-height: 200px; */
  }
 
  /* TODO use class */

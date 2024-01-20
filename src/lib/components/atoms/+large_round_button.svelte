@@ -15,12 +15,12 @@
 
 <style>
  .button--main {
-     width: 20vw;
-     height: 20vw;
+     width: 25vw;
+     height: 25vw;
      border-radius: 100%;
      color: #FFF;
-     backdrop-filter: blur(20px);
-     -webkit-backdrop-filter: blur(20px);
+     backdrop-filter: blur(10px);
+     -webkit-backdrop-filter: blur(10px);
      background: rgba(30, 144, 255, .5);
      transition: background .2s ease-in, font-color .2s ease-in;
  }

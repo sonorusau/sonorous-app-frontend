@@ -1,6 +1,7 @@
 <script lang="ts">
  import Router, {push} from 'svelte-spa-router';
  import Home from './routes/+Home.svelte';
+ import Background from './lib/components/templates/+background.svelte';
  import ConnectDevice from './routes/+connect_device.svelte';
  import PositionDevice from './routes/+position_device.svelte';
  import NewPatientPage from './routes/+new_patient_form.svelte';
@@ -45,6 +46,7 @@
 </script>
 
 <body>
+    <Background />
     <main>
         <nav class="navbar extend flex flex-row items-center space-around" bind:this={navbarRef}>
             {#if currentStage >= 1}
@@ -81,6 +83,7 @@
 <style>
  .navbar {
      z-index: 10;
+     padding-top: 15px;
      position: fixed;
      min-height: 70px;
      top: 0;
