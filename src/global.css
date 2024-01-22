@@ -8,8 +8,21 @@
     --panel-max-width: 450px
 }
 
+@font-face {
+    font-family: 'Proxima Nova';
+    src: url('./lib/assets/ProximaNova-Regular.woff2') format('woff2');
+}
+
+body, html {
+    font-family: 'Proxima Nova', ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI, Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+}
+
 .bg-red {
     background-color: red;
+}
+
+.first-child-is-icon:first-child {
+    margin-right: 2px
 }
 
 .button--main {
@@ -75,6 +88,7 @@
 .position-relative {
     position: relative
 }
+
 
 body {
     position: fixed;

@@ -15,8 +15,8 @@
 
 <style>
  .button--main {
-     width: 25vw;
-     height: 25vw;
+     width: 200px;
+     height: 200px;
      border-radius: 100%;
      color: #FFF;
      backdrop-filter: blur(10px);

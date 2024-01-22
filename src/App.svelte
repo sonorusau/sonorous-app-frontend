@@ -36,12 +36,11 @@
  };
 
  const cancel = () => {
+     push("/");
      globalState.update(state => {
          state.currentStage = 0;
          return state;
      });
-
-     push("/");
  }
 </script>
 
