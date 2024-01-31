@@ -2,16 +2,17 @@ use cpal::traits::{DeviceTrait, HostTrait};
 
 pub fn get_device() {
     let host = cpal::default_host();
-    // let device = host.default_input_device().expect("no output device available");
-    
     let devices = host.devices();
+
     match devices {
-        Ok(device) => {
-            let a = device.map(|mut iter| iter.next().is_some())
-            println!("Devices {:?}", "asdsa");
-        },
-        Err(_) => {
-        
+        Ok(devices) => {
+            for device in devices {
+                match device.name() {
+                    Ok(name) => println!("Device: {:?}", name),
+                    Err(e) => println!("Error getting device name: {:?}", e),
+                }
+            }
         }
+        Err(e) => println!("Error retrieving devices: {:?}", e),
     }
 }
