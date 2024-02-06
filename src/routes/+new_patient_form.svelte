@@ -5,6 +5,7 @@
  import InputTypeTextNormal from "../lib/components/molecules/+input_type_text_normal.svelte";
  import Icon from '@iconify/svelte';
 
+
  let patientId = '';
  let name = '';
  let dob = '';
@@ -12,7 +13,24 @@
  let conditions = [''];
  let gender = '';
 
- onMount(() => {
+
+ onMount(async () => {
+     try {
+         const invoke = window.__TAURI__.invoke
+         /* const { invoke } = await import('@tauri-apps/api/tauri'); */
+         /* await invoke('my_custom_command'); */
+         /* const response = await invoke('my_custom_command'); */
+         const userData = { name: "Jane Doe", age: 28, dob: "1993-12-12", gender: "Male" }
+         const response = await invoke('save_user', {
+             user_data: userData
+         });
+
+         const data = await invoke('get_users');
+         console.log(response);
+     } catch (e) {
+         console.error(e);
+     }
+
      globalState.update(state => {
          state.currentStage = 1;
          return state;
@@ -93,7 +111,7 @@
         </div>
 
         <div class="input-group">
-            <button type="submit">Submit</button>
+            <button on:click={() => console.log("hello")} type="submit">Submit</button>
         </div>
 
     </form>
