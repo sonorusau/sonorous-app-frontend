@@ -3,213 +3,29 @@
  import LargeRoundButton from '../lib/components/atoms/+large_round_button.svelte';
  import LeftPanel from '../lib/components/organisms/+left_panel.svelte';
  import Card from '../lib/components/organisms/+card.svelte';
+ import { onMount } from 'svelte';
  import { globalState } from '../stores';
  import { push } from 'svelte-spa-router';
 
  let currentSearchString = "";
-
  $: currentPatient = $globalState.currentPatient;
+ $: patients = [];
 
- const patients: PatientInfo[] = [
-     {
-         "patientId": "33256246",
-         "name": "Jane Smith",
-         "dob": "22-01-1960",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "arthritis"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "17630222",
-         "name": "Messica Taylor",
-         "dob": "06-08-1959",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "diabetes"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "51541971",
-         "name": "Marah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "1234",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-
-     {
-         "patientId": "12345",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "123456",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "1234567",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "12345678",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "123456789",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "123410",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "123411",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "123412",
-         "name": "Zarah Davis",
-         "dob": "04-03-1984",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "78347373",
-         "name": "James Wilson",
-         "dob": "28-12-1970",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "asthma"
-         ],
-         "gender": "Female"
-     },
-     {
-         "patientId": "62893249",
-         "name": "John Doe",
-         "dob": "19-04-1959",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "anemia"
-         ],
-         "gender": "Female"
-     },
-     {
-         "patientId": "97346510",
-         "name": "John Doe",
-         "dob": "09-05-1989",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "depression"
-         ],
-         "gender": "Female"
-     },
-     {
-         "patientId": "62394872",
-         "name": "Robert Miller",
-         "dob": "10-10-1956",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "heart disease"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "83997215",
-         "name": "Jessica Taylor",
-         "dob": "06-06-1948",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "malaria"
-         ],
-         "gender": "Male"
-     },
-     {
-         "patientId": "34695566",
-         "name": "James Wilson",
-         "dob": "03-06-2003",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "COPD"
-         ],
-         "gender": "Female"
-     },
-     {
-         "patientId": "65702472",
-         "name": "Michael Brown",
-         "dob": "22-06-1997",
-         "description": "Randomly generated patient data.",
-         "conditions": [
-             "chronic kidney disease"
-         ],
-         "gender": "Female"
+ onMount(async () => {
+     try {
+         const invoke = window.__TAURI__.invoke;
+         const morePatients = await invoke('get_users', {callSource: "sadasd"});
+         patients = [...patients, ...morePatients];
+     } catch (e) {
+         console.error(e);
      }
- ]
+ });
 
  $: sortedAndFilteredPatients = patients
      .sort((a, b) => a.name.localeCompare(b.name))
      .filter(patient => patient.name.toLowerCase().includes(currentSearchString.toLowerCase()));
 
  const getFirstLetter = (name: string) => name[0].toUpperCase();
-
  let currentlySelectedPatient: string | undefined;
  let isPanelHidden: boolean;
 
@@ -275,38 +91,31 @@
                     on:keydown={(e) => (e.key === 'Enter' || e.key === 'Space') && newPatient()}
                     tabindex="0"
                     class="button first-child-is-icon"
-                    >
-                    <iconify-icon icon="material-symbols:add"/>New Patient
+                    > <iconify-icon icon="material-symbols:add"/>New Patient
                 </div>
             </div>
             <input type="text" placeholder="Search" on:input={(e) => {currentSearchString = e.target.value}} />
         </section>
-
-        {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
-            {#if firstLetterMap[getFirstLetter(name)] === patientId}
-                <div class="sticky-letter-header">{getFirstLetter(name)}</div>
-            {/if}
-            <Card selected={patientId === currentlySelectedPatient} gender={gender} name={name} patientId={patientId} dob={dob} on:click={(e) => handleSelectUser(patientId)}>
-                {description}
-            </Card>
-        {/each}
+        {#if patients.length !== 0}
+            {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
+                {#if firstLetterMap[getFirstLetter(name)] === patientId}
+                    <div class="sticky-letter-header">{getFirstLetter(name)}</div>
+                {/if}
+                <Card
+                    selected={patientId === currentlySelectedPatient}
+                    gender={gender}
+                    name={name}
+                    patientId={patientId}
+                    dob={dob}
+                    on:click={(e) => handleSelectUser(patientId)} >
+                    {description}
+                </Card>
+            {/each}
+        {:else}
+            <h2>No Patients</h2>
+        {/if}
     </LeftPanel>
     <main class="content flex flex-col items-center justify-center">
-        <section class="content__patient-info flex items-center">
-            <!-- 
-                 {#if currentPatient === null}
-                 <h2>Please Select a Patient to Start Recording</h2>
-                 {:else}
-                 {#each sortedAndFilteredPatients as {name, patientId, dob, description, gender} (patientId)}
-                 {#if patientId === currentlySelectedPatient}
-                 <Card selected={patientId === currentlySelectedPatient} gender={gender} name={name} patientId={patientId} dob={dob} on:click={() => {handleSelectUser(patientId)}}>
-                 {description}
-                 </Card>
-                 {/if}
-                 {/each}
-                 {/if}
-            -->
-        </section>
         <LargeRoundButton disabled={currentlySelectedPatient === undefined} on:click={() => startRecording()}>Start Recording</LargeRoundButton>
     </main>
 

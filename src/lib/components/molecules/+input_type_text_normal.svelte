@@ -1,14 +1,24 @@
 <script lang="ts">
  export let placeholder: string | null = null;
  export let disabled: boolean = false;
- export let handleInputChange;
  import { createEventDispatcher } from 'svelte';
+
  const dispatch = createEventDispatcher();
  let target: HTMLInputElement | null = null;
+ let value = '';
+
+ function updateValue() {
+     dispatch('input', value);
+ }
 </script>
 
-<input value="" on:input={handleInputChange} class="input--text" type="text" placeholder={placeholder} disabled={disabled} />
-
+<input
+    on:input={updateValue}
+    bind:value={value}
+    class="input--text"
+    type="text"
+    placeholder={placeholder}
+    disabled={disabled} />
 
 <style>
  input {

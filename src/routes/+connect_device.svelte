@@ -13,8 +13,8 @@
      }
 
      setTimeout(() => {
-         setDevice("Sonorus Model 1");
-         push("/position_device");
+        setDevice("Sonorus Model 1");
+        push("/position_device");
      }, 6000)
 
      function setDevice(deviceName) {

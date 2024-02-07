@@ -2,19 +2,29 @@
  export let icon: string | null = null;
  export let placeholder: string | null = null;
  import Icon from '@iconify/svelte';
+ import { createEventDispatcher } from 'svelte';
 
  const iconifyIcon = document.querySelector('iconify-icon');
+ const dispatch = createEventDispatcher();
+ let value = '';
+
+ function updateValue() {
+     dispatch('input', value);
+ }
 
  $:  if (iconifyIcon && iconifyIcon.shadowRoot) {
      const existingStyle = iconifyIcon.shadowRoot.querySelector('style');
-     if (existingStyle) {
-         existingStyle.remove();
-     }
+     if (existingStyle) existingStyle.remove();
  }
 </script>
 
 <div class="input-group input-group-icon">
-    <input class="input--text" type="text" placeholder={placeholder} />
+    <input
+        class="input--text"
+        type="text"
+        placeholder={placeholder}
+        bind:value={value}
+        on:input={updateValue} />
     {#if icon}
         <div class="input-icon">
             <Icon class="icon" icon={icon} style="width: 44%; height: 40%;" />

@@ -1,4 +1,5 @@
 use log::info;
+use uuid::Uuid;
 use crate::models::{ user_data::UserData, users::Users };
 use std::{fs::{self, File, OpenOptions}, io::{Read, Write}};
 use serde_json::from_str;
@@ -14,7 +15,7 @@ pub fn my_custom_command() -> String {
 pub fn save_user(user_data: Option<UserData>) -> String {
     let path = "/Users/blackfish/sonorous-app-frontend/src-tauri/data.json";
     match user_data {
-        Some(new_data) => {
+        Some(mut new_data) => {
             info!("Received data for user: {:?}", new_data.name);
             let mut file_content = String::new();
             let mut users = match File::open(&path) {
@@ -24,6 +25,7 @@ pub fn save_user(user_data: Option<UserData>) -> String {
                 },
                 Err(_) => Users { users: vec![] },
             };
+            new_data.patientId = Some(Uuid::new_v4());
             users.users.push(new_data);
             let serialized = serde_json::to_string(&users).unwrap_or_else(|_| "Failed to serialize data".to_string());
             info!("Writing to file {}", path);
@@ -45,9 +47,8 @@ pub fn save_user(user_data: Option<UserData>) -> String {
     }
 }
 
-
 #[tauri::command]
-pub fn get_users() -> Result<Vec<UserData>, String> { // Adjust the return type if needed
+pub fn get_users(callSource: Option<String>) -> Result<Vec<UserData>, String> { // Adjust the return type if needed
     let path = "/Users/blackfish/sonorous-app-frontend/src-tauri/data.json";
     let mut file = match File::open(&path) {
         Ok(file) => file,
@@ -56,21 +57,19 @@ pub fn get_users() -> Result<Vec<UserData>, String> { // Adjust the return type 
             return Err("Failed to open file".into());
         },
     };
-
+    callSource.map(|source| info!("Received call from {}", source));
     let mut file_content = String::new();
     if file.read_to_string(&mut file_content).is_err() {
         info!("Failed to read file content");
         return Err("Failed to read file content".into());
-    }
-
-    info!("Read file content: {}", file_content);
-    let users: Users = match from_str(&file_content) { // Adjust according to your JSON structure
+    };
+    info!("Read file content");
+    let users: Users = match from_str(&file_content) {
         Ok(data) => data,
         Err(_) => {
             info!("Failed to deserialize file content");
             return Err("Failed to deserialize file content".into());
         },
     };
-
-    Ok(users.users) // Return the deserialized users
+    Ok(users.users)
 }

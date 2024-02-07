@@ -1,36 +1,30 @@
-<script>
+<script lang="ts">
  import { onMount } from 'svelte';
  import { globalState } from '../stores';
  import InputTypeText from "../lib/components/molecules/+input_type_text.svelte";
  import InputTypeTextNormal from "../lib/components/molecules/+input_type_text_normal.svelte";
  import Icon from '@iconify/svelte';
 
-
- let patientId = '';
- let name = '';
- let dob = '';
- let description = '';
- let conditions = [''];
- let gender = '';
-
+ let name: String = '';
+ let dob_dd: String = '';
+ let dob_mm: String = '';
+ let dob_yyyy: String = '';
+ let description: String = '';
+ let conditions: String[] = [''];
+ let gender: String = '';
+ let test = {};
 
  onMount(async () => {
      try {
-         const invoke = window.__TAURI__.invoke
-         /* const { invoke } = await import('@tauri-apps/api/tauri'); */
-         /* await invoke('my_custom_command'); */
-         /* const response = await invoke('my_custom_command'); */
-         const userData = { name: "Jane Doe", age: 28, dob: "1993-12-12", gender: "Male" }
-         const response = await invoke('save_user', {
-             user_data: userData
-         });
-
-         const data = await invoke('get_users');
-         console.log(response);
+         const invoke = window.__TAURI__.invoke;
+         const userData = { name: "Jane Doe", age: 28, dob: "1993-12-12", gender: "Male" };
+         // const response = await invoke('save_user', {
+         //     user_data: userData
+         // });
+         // test = await invoke('get_users');
      } catch (e) {
          console.error(e);
      }
-
      globalState.update(state => {
          state.currentStage = 1;
          return state;
@@ -38,7 +32,8 @@
  });
 
  function handleSubmit() {
-     const patientData = { patientId, name, dob, description, conditions, gender };
+     const dob = `${dob_dd}-${dob_mm}-${dob_yyyy}`
+     const patientData = { name, dob, description, conditions, gender };
      console.log(patientData); // Handle submission logic here (e.g., send to an API)
  }
 
@@ -62,57 +57,54 @@
             New Patient
         </h3>
         <!-- <InputTypeText icon="fluent:patient-20-filled" placeholder="Patient ID" /> -->
-        <InputTypeText icon="fluent:patient-20-filled" placeholder="Name" />
+        <InputTypeText icon="fluent:patient-20-filled" placeholder="Name" on:input={e => name = e.detail} />
 
-        <h4 for="dob-container" class="flex first-child-is-icon items-center">
-            <Icon icon="clarity:date-line" />
-            Date of Birth
-        </h4>
-        <div class="dob-container flex flex-row">
-            <InputTypeTextNormal placeholder="DD" />
-            <InputTypeTextNormal placeholder="MM" />
-            <InputTypeTextNormal placeholder="YYYY" />
-        </div>
+            <h4 for="dob-container" class="flex first-child-is-icon items-center">
+                <Icon icon="clarity:date-line" />
+                Date of Birth
+            </h4>
+            <div class="dob-container flex flex-row">
+                <InputTypeTextNormal on:input={e => dob_dd = e.detail} placeholder="DD" />
+                    <InputTypeTextNormal on:input={e => dob_mm = e.detail} placeholder="MM" />
+                        <InputTypeTextNormal on:input={e => dob_yyyy = e.detail} placeholder="YYYY" />
+            </div>
+            <h4 for="description" class="flex items-center first-child-is-icon">
+                <Icon icon="fluent:text-description-16-filled" />
+                Description
+            </h4>
+            <textarea id="description" bind:value={description} />
+            <h4 for="conditions" class="flex items-center first-child-is-icon">
+                <Icon icon="material-symbols:conditions" />
+                Conditions
+            </h4>
 
-        <h4 for="description" class="flex items-center first-child-is-icon">
-            <Icon icon="fluent:text-description-16-filled" />
-            Description
-        </h4>
-        <textarea id="description" bind:value={description} />
+            <div class="input-group">
+                {#each conditions as condition, index}
+                    <div class="condition">
+                        <InputTypeTextNormal placeholder="Condition" bind:value={conditions[index]} handleInputChange={(event) => updateCondition(index, event.target.value)} />
+                            {#if index !== 0}
+                                <button on:click={() => removeCondition(index)}>Remove</button>
+                            {/if}
+                    </div>
+                {/each}
 
-        <h4 for="conditions" class="flex items-center first-child-is-icon">
-            <Icon icon="material-symbols:conditions" />
-            Conditions
-        </h4>
+                <button type="button" on:click={addCondition}>Add Condition</button>
+            </div>
 
-        <div class="input-group">
-            {#each conditions as condition, index}
-                <div class="condition">
-                    <InputTypeTextNormal placeholder="Condition" bind:value={conditions[index]} handleInputChange={(event) => updateCondition(index, event.target.value)} />
-                        {#if index !== 0}
-                            <button on:click={() => removeCondition(index)}>Remove</button>
-                        {/if}
-                </div>
-            {/each}
+            <h4 for="gender" class="flex items-center first-child-is-icon">
+                <Icon icon="healthicons:female-and-male-outline" />
+                Gender
+            </h4>
 
-            <button type="button" on:click={addCondition}>Add Condition</button>
-        </div>
-
-        <h4 for="gender" class="flex items-center first-child-is-icon">
-            <Icon icon="healthicons:female-and-male-outline" />
-            Gender
-        </h4>
-
-        <div class="input-group">
-            <input id="gender-male" type="radio" name="gender" value="male" />
-            <label for="gender-male">Male</label>
-            <input id="gender-female" type="radio" name="gender" value="female" />
-            <label for="gender-female">female</label>
-        </div>
-
-        <div class="input-group">
-            <button on:click={() => console.log("hello")} type="submit">Submit</button>
-        </div>
+            <div class="input-group">
+                <input id="gender-male" type="radio" name="gender" value="male" />
+                <label for="gender-male">Male</label>
+                <input id="gender-female" type="radio" name="gender" value="female" />
+                <label for="gender-female">female</label>
+            </div>
+            <div class="input-group">
+                <button type="submit">Submit</button>
+            </div>
 
     </form>
 </section>
@@ -203,10 +195,13 @@
 
  
  .new-patient {
+     position: absolute;
+     top: 50%;
+     transform: translate(-50%, -45%);
      overflow-y: scroll;
      width: 70%;
      max-width: 700px;
-     height: 70%;
+     height: 80%
  }
  
  

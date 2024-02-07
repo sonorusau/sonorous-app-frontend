@@ -11,7 +11,6 @@ fn main() {
     info!("Starting application");
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![user::my_custom_command, user::save_user, user::get_users])
-        // .invoke_handler(tauri::generate_handler![user::save_user])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 
