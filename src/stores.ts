@@ -5,6 +5,7 @@ const stages = {
     Home: 0,
     ConnectDevice: 2,
     PositionDevice: 2,
+    NewRecording: 2,
     NewPatientPage: 1,
     About: 1
 } as const;

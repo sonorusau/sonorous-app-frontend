@@ -4,6 +4,7 @@
  import Background from './lib/components/templates/+background.svelte';
  import ConnectDevice from './routes/+connect_device.svelte';
  import PositionDevice from './routes/+position_device.svelte';
+ import NewRecording from './routes/+new_recording.svelte';
  import NewPatientPage from './routes/+new_patient_form.svelte';
  import About from './routes/+About.svelte';
  import 'iconify-icon';
@@ -31,6 +32,7 @@
      '/': Home,
      '/connect_device': ConnectDevice,
      '/position_device': PositionDevice,
+     '/new_recording': NewRecording,
      '/new_patient': NewPatientPage,
      '/about': About
  };
