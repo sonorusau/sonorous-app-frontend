@@ -43,8 +43,8 @@
                     stroke-width="5"
                     fill="transparent"
                     d="M 200 280 L 100 100"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 />
                 <text x="58" y="95" font-family="Arial" font-size="16">Aortic valve</text>
             </g>
@@ -56,8 +56,8 @@
                     stroke-width="5"
                     fill="transparent"
                     d="M 250 280 L 350 100"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 />
                 <text x="300" y="95" font-family="Arial" font-size="16">Pulmonic valve</text>
             </g>
@@ -70,13 +70,12 @@
                     stroke-width="5"
                     fill="transparent"
                     d="M 220 330 L 180 475"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 />
                 <text x="150" y="495" font-family="Arial" font-size="16">Tricuspid valve</text>
             </g>
-            <g
-                on:click={() => updateRecordingPosition("mitral")}
+            <g on:click={() => updateRecordingPosition("mitral")}
                 class:selected={locationOfRecording === "MITRAL"}>
                 class="mitral">
                 <path
@@ -84,8 +83,8 @@
                     stroke-width="5"
                     fill="transparent"
                     d="M 250 335 L 320 475"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 />
                 <text x="300" y="495" font-family="Arial" font-size="16">Mitral valve</text>
             </g>

@@ -3,6 +3,7 @@
  import Home from './routes/+Home.svelte';
  import Background from './lib/components/templates/+background.svelte';
  import ConnectDevice from './routes/+connect_device.svelte';
+ import Toast from "./lib/components/organisms/+toast.svelte";
  import PositionDevice from './routes/+position_device.svelte';
  import Recording from './routes/+recording.svelte';
  import NewPatientPage from './routes/+new_patient_form.svelte';
@@ -16,7 +17,8 @@
  $: currentPatient = $globalState.currentPatient;
  $: currentStage = $globalState.currentStage;
  $: deviceInfo = $globalState.deviceInfo;
-
+ $: showToast = $globalState.showToast;
+ 
  $: {
      const { currentStage } = $globalState;
      if (navbarRef) {
@@ -45,10 +47,25 @@
          state.currentStage = 0;
          return state;
      });
+     globalState.update(state => {
+         state.showToast = false;
+         return state;
+     });
+ }
+
+ const showPatientInfoModal = () => {
+     navbarRef.classList.add('extend');
+     globalState.update(state => {
+         state.showToast = true;
+         return state;
+     });
  }
 </script>
 
 <body>
+    {#if showToast }
+        <Toast />
+    {/if}
     <Background />
     <main>
         <nav class="navbar extend flex flex-row items-center space-around" bind:this={navbarRef}>
@@ -64,7 +81,7 @@
                     Cancel
                 </div>
             {/if}
-            <div class="flex flex-row items-center cursor-pointer first-child-is-icon">
+            <div on:click = {() => showPatientInfoModal()} class="flex flex-row items-center cursor-pointer first-child-is-icon">
                 {#if currentPatient !== null}
                     <iconify-icon icon="fluent:patient-20-filled"/><p>{currentPatient?.name}</p>
                 {:else}

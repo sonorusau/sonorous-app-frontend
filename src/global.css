@@ -1,6 +1,7 @@
 :root {
     --pastel-pink: #ffd6ff;
     --lavender-pink: #e7c6ff;
+    --dark-mode-purple-2: #897ed3;
     --mauve-pink: #c8b6ff;
     --soft-lilac: #b8c0ff;
     --pale-sky-blue: #bbd0ff;
@@ -130,12 +131,20 @@ html, body {
     align-self: flex-end
 } 
 
+.self-start {
+    align-self: flex-start
+} 
+
 .button:hover {
     background: rgba(255, 255, 255, .8);
 }
 
 .button:active {
     border: none
+}
+
+.box-border {
+    box-sizing: border-box;
 }
 
 .first-child-is-icon > :first-child  {
