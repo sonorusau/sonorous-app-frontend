@@ -45,7 +45,8 @@ use crate::core::device;
 fn main() {
     println!("HERE");
     device::get_device();
-    device::search_devices();
+    // device::search_devices();
+    // request::request();
     tauri::Builder::default()
         // .setup(|app| {
         //     let win = app.get_window("main").unwrap();

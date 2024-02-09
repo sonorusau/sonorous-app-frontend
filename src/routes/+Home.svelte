@@ -256,7 +256,8 @@
 
  const startRecording = () => {
      hidePanel();
-     push('/connect_device');
+    //  push('/connect_device');
+    push("/new_recording");
      globalState.update(state => {
          state.currentStage = 2;
          return state;

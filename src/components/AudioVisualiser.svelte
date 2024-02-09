@@ -50,7 +50,6 @@
     });
   });
 
-
   const handleMouseMove = (event) => {
     hoverWidth = `${event.offsetX}px`;
   };
@@ -95,7 +94,9 @@
   #duration {
     right: 0;
   }
+
 </style>
+
 
 <div id="waveform" on:mousemove={handleMouseMove}>
   <div id="time">{currentTime}</div>
