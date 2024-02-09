@@ -9,12 +9,7 @@
 
      // Demo only
      setTimeout(() => {
-         // globalState.update(state => {
-         //     state.currentStage = 3;
-         //     return state;
-         // });
-
-         push("/recording");
+         push("/new_recording");
      }, 600)
  });
 </script>

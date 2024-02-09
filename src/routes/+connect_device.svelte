@@ -18,7 +18,7 @@
          push("/choose_recording_position");
      }, 600)
 
-     function setDevice(deviceName) {
+     function setDevice(deviceName: string) {
          globalState.update(state => {
              state.deviceInfo = deviceName;
              return state;

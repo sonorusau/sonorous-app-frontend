@@ -5,7 +5,7 @@
  import ConnectDevice from './routes/+connect_device.svelte';
  import Toast from "./lib/components/organisms/+toast.svelte";
  import PositionDevice from './routes/+position_device.svelte';
- import Recording from './routes/+recording.svelte';
+ import NewRecording from './routes/+new_recording.svelte';
  import NewPatientPage from './routes/+new_patient_form.svelte';
  import ChooseRecordingPosition from "./routes/+choose_recording_position.svelte";
  import About from './routes/+About.svelte';
@@ -34,9 +34,9 @@
      '/': Home,
      '/choose_recording_position': ChooseRecordingPosition,
      '/connect_device': ConnectDevice,
-     '/recording': Recording,
      '/position_device': PositionDevice,
      '/choose_recording_position': ChooseRecordingPosition,
+     '/new_recording': NewRecording,
      '/new_patient': NewPatientPage,
      '/about': About
  };

@@ -34,6 +34,7 @@
     "gsap": "^3.12.5",
     "iconify-icon": "^1.0.8",
     "sirv-cli": "^2.0.0",
-    "svelte-spa-router": "^4.0.1"
+    "svelte-spa-router": "^4.0.1",
+    "wavesurfer.js": "^7.7.2"
   }
 }
