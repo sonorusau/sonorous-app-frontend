@@ -90,8 +90,7 @@
                     on:click={() => newPatient()}
                     on:keydown={(e) => (e.key === 'Enter' || e.key === 'Space') && newPatient()}
                     tabindex="0"
-                    class="button first-child-is-icon"
-                    > <iconify-icon icon="material-symbols:add"/>New Patient
+                    class="button first-child-is-icon"> <iconify-icon icon="material-symbols:add"/>New Patient
                 </div>
             </div>
             <input type="text" placeholder="Search" on:input={(e) => {currentSearchString = e.target.value}} />

@@ -54,11 +54,12 @@
  }
 
  const showPatientInfoModal = () => {
-     navbarRef.classList.add('extend');
-     globalState.update(state => {
-         state.showToast = true;
-         return state;
-     });
+     if ($globalState.currentPatient !== null) {
+         globalState.update(state => {
+             state.showToast = true;
+             return state;
+         });
+     }
  }
 </script>
 

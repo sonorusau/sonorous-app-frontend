@@ -55,8 +55,6 @@
             </td>
         </tr>
     </table>
-
-    <header class="self-start"><h3>Recordings</h3></header>
 </section>
 
 <style>
