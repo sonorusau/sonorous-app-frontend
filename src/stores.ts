@@ -12,5 +12,6 @@ const stages = {
 export const globalState = writable<IGlobalState>({
     currentPatient: null,
     deviceInfo: null,
+    locationOfRecording: "AORTIC" || "TRICUSPID" || "PULMONIC" || "MITRAL" || null,
     currentStage: 0
 });

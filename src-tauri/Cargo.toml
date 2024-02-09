@@ -23,6 +23,7 @@ cpal = "0.15.2"
 rusb = "0.9.3"
 env_logger = "0.9"
 log = "0.4.20"
+dirs-next = "2.0.0"
 # cocoa = "0.25.0"
 
 [features]

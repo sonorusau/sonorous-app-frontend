@@ -4,7 +4,9 @@
  import Background from './lib/components/templates/+background.svelte';
  import ConnectDevice from './routes/+connect_device.svelte';
  import PositionDevice from './routes/+position_device.svelte';
+ import Recording from './routes/+recording.svelte';
  import NewPatientPage from './routes/+new_patient_form.svelte';
+ import ChooseRecordingPosition from "./routes/+choose_recording_position.svelte";
  import About from './routes/+About.svelte';
  import 'iconify-icon';
  import { globalState } from './stores';
@@ -17,7 +19,6 @@
 
  $: {
      const { currentStage } = $globalState;
-
      if (navbarRef) {
          if (currentStage >= 1) {
              navbarRef.classList.add('extend');
@@ -29,8 +30,11 @@
 
  const routes = {
      '/': Home,
+     '/choose_recording_position': ChooseRecordingPosition,
      '/connect_device': ConnectDevice,
+     '/recording': Recording,
      '/position_device': PositionDevice,
+     '/choose_recording_position': ChooseRecordingPosition,
      '/new_patient': NewPatientPage,
      '/about': About
  };

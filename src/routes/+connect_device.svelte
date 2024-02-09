@@ -9,13 +9,14 @@
      }
 
      if ($globalState.deviceInfo !== null) {
-         push("/position_device");
+         push("/choose_recording_position");
      }
 
+     // Demo only
      setTimeout(() => {
-        setDevice("Sonorus Model 1");
-        push("/position_device");
-     }, 6000)
+         setDevice("Sonorus Model 1");
+         push("/choose_recording_position");
+     }, 600)
 
      function setDevice(deviceName) {
          globalState.update(state => {

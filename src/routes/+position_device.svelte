@@ -6,6 +6,16 @@
  onMount(() => {
      if($globalState.currentStage < 2) 
          push("/");
+
+     // Demo only
+     setTimeout(() => {
+         // globalState.update(state => {
+         //     state.currentStage = 3;
+         //     return state;
+         // });
+
+         push("/recording");
+     }, 600)
  });
 </script>
 

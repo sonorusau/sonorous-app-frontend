@@ -126,6 +126,10 @@ html, body {
     cursor: pointer
 }
 
+.self-end {
+    align-self: flex-end
+} 
+
 .button:hover {
     background: rgba(255, 255, 255, .8);
 }
