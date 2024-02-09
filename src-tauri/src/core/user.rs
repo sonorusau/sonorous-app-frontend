@@ -3,6 +3,7 @@ use uuid::Uuid;
 use crate::models::{ user_data::UserData, users::Users };
 use std::{fs::{self, File, OpenOptions}, io::{Read, Write}};
 use serde_json::from_str;
+use crate::errors::errors::Errors;
 
 
 #[tauri::command]
@@ -12,8 +13,8 @@ pub fn my_custom_command() -> String {
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn save_user(user_data: Option<UserData>) -> String {
-    let path = "/Users/blackfish/sonorous-app-frontend/src-tauri/data.json";
+pub fn save_user(user_data: Option<UserData>) -> Result<String, String> {
+    let path = "/Users/blackfish/data.json";
     match user_data {
         Some(mut new_data) => {
             info!("Received data for user: {:?}", new_data.name);
@@ -33,23 +34,24 @@ pub fn save_user(user_data: Option<UserData>) -> String {
                 Ok(file) => file,
                 Err(_) => {
                     info!("Failed to open file");
-                    return "Failed to open file".into()
+                    return Err(Errors::FailedToOpenFileError.as_str());
                 },
             };
             if let Err(_) = file.write_all(serialized.as_bytes()) {
                 info!("Failed to write to file");
-                return "Failed to write to file".into();
+                return Err(Errors::FailedToWriteFileError.as_str());
             }
+
             info!("Data appended successfully");
-            "Data appended successfully".into()
+            Ok("Data appended successfully".into())
         },
-        None => "No data to save".into(),
+        None => Err(Errors::InvalidDataError.as_str())
     }
 }
 
 #[tauri::command]
 pub fn get_users(callSource: Option<String>) -> Result<Vec<UserData>, String> { // Adjust the return type if needed
-    let path = "/Users/blackfish/sonorous-app-frontend/src-tauri/data.json";
+    let path = "/Users/blackfish/data.json";
     let mut file = match File::open(&path) {
         Ok(file) => file,
         Err(_) => {

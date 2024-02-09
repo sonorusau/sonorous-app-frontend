@@ -2,6 +2,7 @@
  import { onMount } from 'svelte';
  import { globalState } from '../stores';
  import InputTypeText from "../lib/components/molecules/+input_type_text.svelte";
+ import {push} from 'svelte-spa-router';
  import InputTypeTextNormal from "../lib/components/molecules/+input_type_text_normal.svelte";
  import Icon from '@iconify/svelte';
 
@@ -16,12 +17,7 @@
 
  onMount(async () => {
      try {
-         const invoke = window.__TAURI__.invoke;
          const userData = { name: "Jane Doe", age: 28, dob: "1993-12-12", gender: "Male" };
-         // const response = await invoke('save_user', {
-         //     user_data: userData
-         // });
-         // test = await invoke('get_users');
      } catch (e) {
          console.error(e);
      }
@@ -31,10 +27,27 @@
      });
  });
 
- function handleSubmit() {
+ async function handleSubmit() {
+     const invoke = window.__TAURI__.invoke;
      const dob = `${dob_dd}-${dob_mm}-${dob_yyyy}`
      const patientData = { name, dob, description, conditions, gender };
-     console.log(patientData); // Handle submission logic here (e.g., send to an API)
+
+     try {
+         console.log(patientData);
+         const response = invoke('save_user', { user_data:  patientData }).then (response => {
+             if (response === "Data appended successfully") {
+                push("/");
+             }
+             
+             globalState.update(state => {
+                 state.currentStage = 0;
+                 return state;
+             });
+         })
+
+     } catch (e) {
+         console.error(e);
+     }
  }
 
  function addCondition() {
@@ -97,9 +110,9 @@
             </h4>
 
             <div class="input-group">
-                <input id="gender-male" type="radio" name="gender" value="male" />
+                <input id="gender-male" type="radio" name="gender" on:change={(e) => gender = e.target.value} value="male" />
                 <label for="gender-male">Male</label>
-                <input id="gender-female" type="radio" name="gender" value="female" />
+                <input id="gender-female" type="radio" name="gender" on:change={(e) => gender = e.target.value} value="female" />
                 <label for="gender-female">female</label>
             </div>
             <div class="input-group">
