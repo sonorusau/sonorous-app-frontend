@@ -46,9 +46,15 @@
 
     // Play/pause on interaction
     wavesurfer.on('interaction', () => {
-      wavesurfer.playPause()
+      wavesurfer.getCurrentTime();
     });
   });
+
+  const playPause = () => {
+    time = wavesurfer.getCurrentTime();
+    wavesurfer.setTime(time);
+    wavesurfer.playPause();
+  };
 
   const handleMouseMove = (event) => {
     hoverWidth = `${event.offsetX}px`;
@@ -58,8 +64,8 @@
 <style>
   #waveform {
     cursor: pointer;
-    position: absolute;
-    width: 80%;
+    position: relative;
+    min-width: 100%;
   }
   #hover {
     position: absolute;
@@ -95,11 +101,31 @@
     right: 0;
   }
 
+  .play-pause-button {
+    
+  }
+
+  .waveform-section {
+    justify-content: space-around;
+    height: 50vh;
+
+  }
+
+  .waveform--container {
+    overflow: auto;
+    min-width: 100%;
+  }
+
 </style>
 
 
-<div id="waveform" on:mousemove={handleMouseMove}>
-  <div id="time">{currentTime}</div>
-  <div id="duration">{duration}</div>
-  <div id="hover" style="--hover-width: {hoverWidth};"></div>
-</div>
+<section class="position-relative w-full waveform-section flex flex-col items-center">
+  <div class="waveform--container w-full">
+  <div id="waveform" on:mousemove={handleMouseMove}>
+    <div id="time">{currentTime}</div>
+    <div id="duration">{duration}</div>
+    <div id="hover" style="--hover-width: {hoverWidth};"></div>
+  </div>
+  </div>
+  <button class="play-pause-button" on:click={() => playPause()}>Button</button>
+</section>

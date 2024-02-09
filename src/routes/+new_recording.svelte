@@ -3,7 +3,6 @@
     import { onMount } from 'svelte';
     import { globalState } from '../stores';
     import AudioVisualiser from '../components/AudioVisualiser.svelte';
-   
 </script>
 
 <section class="new-recording-section flex flex-col justify-center items-center">
@@ -12,10 +11,14 @@
 
 <style>
  .new-recording-section{
-     padding: 300px;
-     width: 90%;
+     width: 80%;
+     height: 50%;
+     padding: 100px;
      box-sizing: border-box;
      position: absolute;
+     display: flex;
+     justify-content: center;
+     align-items: center;
      animation: fade-in .2s ease-in-out;
      top: 50%;
      left: 50%;
