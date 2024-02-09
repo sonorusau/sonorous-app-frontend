@@ -3,7 +3,7 @@
 mod core;
 mod models;
 mod errors;
-use tauri::{Runtime, Window, Manager};
+// use tauri::{Runtime, Window, Manager};
 use log::info;
 use crate::core::{ device, user };
 
@@ -17,5 +17,4 @@ fn main() {
         .invoke_handler(tauri::generate_handler![user::my_custom_command, user::save_user, user::get_users])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-
 }

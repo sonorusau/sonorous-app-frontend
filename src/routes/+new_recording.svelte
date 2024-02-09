@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import { push } from 'svelte-spa-router';
     import { onMount } from 'svelte';
     import { globalState } from '../stores';

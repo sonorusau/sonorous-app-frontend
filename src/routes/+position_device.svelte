@@ -10,12 +10,12 @@
      // Demo only
      setTimeout(() => {
          push("/new_recording");
-     }, 600)
+     }, 24000)
  });
 </script>
 
 <section class="position-device-section flex flex-col justify-center items-center">
-    <header><h3>Please position the device on the chest of the patient</h3></header>
+    <header><h3>Recording... Keep device in position.</h3></header>
     <div class="stethoscope flex justify-center items-center">
         <svg id="mySvg" xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewbox="0 0 120 120" preserveaspectratio="xmidymid meet" style="width: 100%; height: 100%">
             <defs

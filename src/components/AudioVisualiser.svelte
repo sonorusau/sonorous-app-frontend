@@ -1,11 +1,14 @@
 <script>
   import { onMount } from 'svelte';
   import WaveSurfer from 'wavesurfer.js';
+  import { globalState } from '../stores';
 
   let wavesurfer;
   let duration = '0:00';
   let currentTime = '0:00';
   let hoverWidth = '0px';
+  let buttonText = 'Play';
+  $: recordingLoc = $globalState.locationOfRecording;
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -47,6 +50,7 @@
     // Play/pause on interaction
     wavesurfer.on('interaction', () => {
       wavesurfer.getCurrentTime();
+      console.log(wavesurfer.getPeaks());
     });
   });
 
@@ -54,6 +58,7 @@
     time = wavesurfer.getCurrentTime();
     wavesurfer.setTime(time);
     wavesurfer.playPause();
+    buttonText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
   };
 
   const handleMouseMove = (event) => {
@@ -102,12 +107,25 @@
   }
 
   .play-pause-button {
-    
-  }
+    display: flex;
+    background: rgba(250, 240, 255, .7);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    padding: 20px;
+    height: 35px;
+    justify-content: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    align-items: center;
+    cursor: pointer
+}
 
   .waveform-section {
     justify-content: space-around;
-    height: 50vh;
+    height: 40vh;
 
   }
 
@@ -127,5 +145,8 @@
     <div id="hover" style="--hover-width: {hoverWidth};"></div>
   </div>
   </div>
-  <button class="play-pause-button" on:click={() => playPause()}>Button</button>
+  <button class="play-pause-button" on:click={() => playPause()}>{buttonText}</button>
+  <div class="flex flex-col items-center">
+    <h4>Recording details - Feb 9, 2024</h4>
+    <p>Recording Location: {recordingLoc} | Murmur Detected: No</p>
 </section>
